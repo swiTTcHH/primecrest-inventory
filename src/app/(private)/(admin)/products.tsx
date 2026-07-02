@@ -44,6 +44,7 @@ const Products = () => {
   const categoryRef = useRef<BottomSheet>(null)
 
   const closeModal = (ref: React.RefObject<BottomSheet | null>) => {
+    setSelectedProduct(null)
     ref.current?.close()
   }
 
@@ -250,7 +251,7 @@ const Products = () => {
       {/* Edit Product */}
       <BottomSheet
         ref={bottomSheetRef}
-        onClose={() => setIsEditOpen(false)}
+        onClose={() => { setIsEditOpen(false); setSelectedProduct(null); }}
         snapPoints={["60%"]}
         index={-1}
         enablePanDownToClose
@@ -264,7 +265,7 @@ const Products = () => {
       {/* Delete Product */}
       <BottomSheet
         ref={deleteRef}
-        onClose={() => setDeleteOpen(false)}
+        onClose={() => { setDeleteOpen(false); setSelectedProduct(null); }}
         snapPoints={["28%"]}
         index={-1}
         enablePanDownToClose

@@ -48,7 +48,7 @@ const AdminUserCard = ({ user, onDeletePress }: AdminUserCardProps) => {
             {user.name}
           </Text>
           <Text style={[styles.email, { color: theme.textSecondary || "gray" }]} numberOfLines={1}>
-            {user.email}
+            {user?.email?.split("@")[0].substring(0, 2).padEnd(user?.email?.split("@")[0].length, "*") + "@" + user?.email?.split("@")[1]}
           </Text>
           
           {/* Role Badge */}
