@@ -4,10 +4,12 @@ import { Ionicons } from '@expo/vector-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '@/store/slice/cartSlice'
 import { formatMoney, useThemeColors } from '@/utils/helpers'
+import { RootState } from '@/store/storeTypes'
 
 const SingleProductCard = ({product}: {product: PRODUCT}) => {
   const theme = useThemeColors()
-  const cart = useSelector((state: any) => state.cartStore)
+  const cart = useSelector((state: RootState) => state.cartStore)
+  const {isAdmin} = useSelector((state: RootState) => state.authStore)
   const dispatch = useDispatch();
 
   // Get quantity if product is in cart
@@ -22,7 +24,7 @@ const SingleProductCard = ({product}: {product: PRODUCT}) => {
         <Text style={[styles.stock, {color: theme.text}]}>Stock: {product?.stockQuantity}</Text>
       </View>
         
-        <Pressable 
+        {isAdmin && <Pressable 
           onPress={() => {
             dispatch(addToCart({ product, quantity: 1 }));
             ToastAndroid.show(`Added ${product?.name} to cart`, ToastAndroid.SHORT);
@@ -32,7 +34,7 @@ const SingleProductCard = ({product}: {product: PRODUCT}) => {
           // disabled={cart.cartItems.find((cartItem: any) => cartItem.product._id === product._id)} 
         >
           <Ionicons name="cart-outline" size={24} color={quantityInCart >= product?.stockQuantity ? "gray" : theme.accent} />
-        </Pressable>
+        </Pressable>}
     </View>
   )
 }

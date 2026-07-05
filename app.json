@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "PrimeCrest Inventory",
-    "slug": "primeCrestMobile",
+    "slug": "primecrest-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/Logo.png",
@@ -48,8 +48,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "6691ff4d-a12f-4632-92dc-85c73363f9e3"
+        "projectId": "c4081d94-b0c8-46c2-b2cd-4ae429415a64"
       }
-    }
+    },
+    "owner": "switch0019"
   }
 }
