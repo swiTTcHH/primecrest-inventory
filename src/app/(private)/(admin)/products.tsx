@@ -1,7 +1,6 @@
 import AdminProductCard from "@/components/AdminProductCard";
 import CategoryDropdown from "@/components/CategoryDropdown";
 import AddNewCategory from "@/components/modals/AddNewCategory";
-import AddProduct from "@/components/modals/AddProduct";
 import DeleteProduct from "@/components/modals/DeleteProduct";
 import EditProduct from "@/components/modals/EditProduct";
 import api from "@/lib/api";
@@ -12,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import { useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -28,7 +27,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const Products = () => {
   const theme = useThemeColors();
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const [isAddOpen, setIsAddOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<PRODUCT | null>(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -40,7 +38,6 @@ const Products = () => {
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const deleteRef = useRef<BottomSheet>(null)
-  const addRef = useRef<BottomSheet>(null)
   const categoryRef = useRef<BottomSheet>(null)
 
   const closeModal = (ref: React.RefObject<BottomSheet | null>) => {
@@ -206,7 +203,7 @@ const Products = () => {
       {isLoading ? <ActivityIndicator size={"large"} color="white" /> : <FlatList
         data={products?.pages.flatMap((page) => page.data) || []}
         keyExtractor={(item) => item?._id}
-        contentContainerStyle={{opacity: isEditOpen || deleteOpen || isAddOpen ? 0.2 : 1}}
+        contentContainerStyle={{opacity: (isEditOpen || deleteOpen) ? 0.2 : 1}}
         renderItem={({ item }) => (
           <Swipeable renderRightActions={() => renderRightAction(item)}>
             <AdminProductCard product={item} />
@@ -238,13 +235,8 @@ const Products = () => {
         }
       />}
 
-      <Pressable
-        onPress={() => {setIsAddOpen(true); addRef.current?.expand()}}
-        style={[
-          styles.addProductButton,
-          { backgroundColor: theme.accentDark },
-        ]}
-      >
+      {/* Add Product */}
+      <Pressable onPress={()=> router.push("/(private)/(admin)/addProduct")} style={[ styles.addProductButton, { backgroundColor: theme.accentDark }]}>
         <Ionicons name="add-outline" size={24} color={"white"} />
       </Pressable>
 
@@ -274,20 +266,6 @@ const Products = () => {
         <BottomSheetView>
           {selectedProduct && <DeleteProduct product={selectedProduct} onClose={()=>closeModal(deleteRef)} />}
         </BottomSheetView>
-      </BottomSheet>
-      
-      {/* Add Product */}
-      <BottomSheet
-        ref={addRef}
-        onClose={() => setIsAddOpen(false)}
-        snapPoints={["40%", "85%"]}
-        index={-1}
-        enablePanDownToClose
-        backgroundStyle={{ backgroundColor: theme.backgroundElement }}
-      >
-        {/* <BottomSheetView> */}
-          {<AddProduct onClose={()=>closeModal(addRef)} />}
-        {/* </BottomSheetView> */}
       </BottomSheet>
       
       {/* Add Category */}
