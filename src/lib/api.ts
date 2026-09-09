@@ -30,12 +30,12 @@ const getRefreshedAccessToken = (refreshToken: string) => {
     refreshCall = axios
       .post(
         `${BASE_URL}/auth/refresh-token/`,
-        { refresh: refreshToken },
+        { refreshToken },
         { headers: { "Content-Type": "application/json" } },
       )
       .then((res) => {
         // Expecting the refresh endpoint to return { access: "<token>" }
-        const { access: newAccessToken } = res.data.data || {};
+        const { accessToken: newAccessToken } = res.data.data || {};
         // Update store tokens (using plain action payload to avoid circular imports)
         const state = store.getState();
         store.dispatch({

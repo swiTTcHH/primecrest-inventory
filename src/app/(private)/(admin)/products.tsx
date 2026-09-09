@@ -8,11 +8,11 @@ import { ProductResponse } from "@/types/apiTypes";
 import { PRODUCT } from "@/types/types";
 import { useThemeColors } from "@/utils/helpers";
 import { Ionicons } from "@expo/vector-icons";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from "@gorhom/bottom-sheet";
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { Stack, router } from "expo-router";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -32,6 +32,7 @@ const Products = () => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
+  const renderBackdrop = useCallback( (props: any) => ( <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} /> ), [] );
   const [category, setCategory] = useState("");
 
   const queryClient = useQueryClient()
@@ -203,7 +204,7 @@ const Products = () => {
       {isLoading ? <ActivityIndicator size={"large"} color="white" /> : <FlatList
         data={products?.pages.flatMap((page) => page.data) || []}
         keyExtractor={(item) => item?._id}
-        contentContainerStyle={{opacity: (isEditOpen || deleteOpen) ? 0.2 : 1}}
+        // contentContainerStyle={{opacity: (isEditOpen || deleteOpen) ? 0.2 : 1}}
         renderItem={({ item }) => (
           <Swipeable renderRightActions={() => renderRightAction(item)}>
             <AdminProductCard product={item} />
@@ -247,6 +248,7 @@ const Products = () => {
         snapPoints={["60%"]}
         index={-1}
         enablePanDownToClose
+        backdropComponent={renderBackdrop}
         backgroundStyle={{ backgroundColor: theme.backgroundElement }}
       >
         <BottomSheetView>
@@ -261,6 +263,7 @@ const Products = () => {
         snapPoints={["28%"]}
         index={-1}
         enablePanDownToClose
+        backdropComponent={renderBackdrop}
         backgroundStyle={{ backgroundColor: theme.backgroundElement }}
       >
         <BottomSheetView>
@@ -275,6 +278,7 @@ const Products = () => {
         snapPoints={["40%"]}
         index={-1}
         enablePanDownToClose
+        backdropComponent={renderBackdrop}
         backgroundStyle={{ backgroundColor: theme.backgroundElement }}
       >
         {/* <BottomSheetView> */}
