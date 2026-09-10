@@ -12,10 +12,10 @@ const appReducer = combineReducers({
 
 // Root reducer with logout reset
 const rootReducer = (state: ReturnType<typeof appReducer> | undefined, action: AnyAction) => {
-  if (action.type === 'LOGOUT') {
-    AsyncStorage.removeItem('persist:root');
-    state = undefined;
-  }
+  // if (action.type === 'LOGOUT') {
+  //   AsyncStorage.removeItem('persist:root');
+  //   state = undefined;
+  // }
   return appReducer(state, action);
 };
 

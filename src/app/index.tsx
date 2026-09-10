@@ -2,11 +2,12 @@ import { useEffect } from "react";
 import { StyleSheet, ActivityIndicator, View } from "react-native";
 import { useRouter } from "expo-router";
 import { useSelector } from "react-redux";
+import { RootState } from "@/store/storeTypes";
 
 export default function Index() {
   const router = useRouter();
   // Read auth state right out of Redux
-  const { isAuthenticated } = useSelector((state: any) => state.authStore);
+  const { isAuthenticated } = useSelector((state: RootState) => state.authStore);
 
   useEffect(() => {
     if (isAuthenticated) {

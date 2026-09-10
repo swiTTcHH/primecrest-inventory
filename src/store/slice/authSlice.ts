@@ -6,6 +6,9 @@ const authSlice = createSlice({
   name: "auth",
   initialState: initialAuthState,
   reducers: {
+    login: (state) => {
+      state.isAuthenticated = true;
+    },
     setUser: (state, action: PayloadAction<{
         user: User;
         accessToken: string;
@@ -18,14 +21,18 @@ const authSlice = createSlice({
       state.isAuthenticated = action.payload.isAuthenticated;
       state.isAdmin = action.payload.user.role === "admin" ? true : false;
     },
-    logout: () => {
-      return {
-        ...initialAuthState,
-        ...initialCartState
-      }
+    logout: (state) => {
+      state.isAuthenticated = false;
+      state.accessToken = null;
+      state.refreshToken = null;
+    },
+    lockSession: (state) => {
+      // Locks the screen while keeping the refresh token for biometric quick-unlock
+      state.isAuthenticated = false;
+      state.accessToken = null;
     },
   },
 });
 
-export const { setUser, logout } = authSlice.actions;
+export const { login, setUser, logout, lockSession } = authSlice.actions;
 export default authSlice.reducer;

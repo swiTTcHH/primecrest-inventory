@@ -24,8 +24,8 @@ export const store = configureStore({
     const middleware = getDefaultMiddleware({
       serializableCheck: false,
     })
-    return middleware
-    // return isDev ? middleware.concat(logger) : middleware
+    // return middleware
+    return isDev ? middleware.concat(logger) : middleware
   },
 });
 

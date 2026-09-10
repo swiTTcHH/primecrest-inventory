@@ -32,11 +32,17 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#013b61",
           "android": {
             "image": "./assets/images/Logo.png",
             "imageWidth": 100
           }
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
         }
       ],
       "expo-image",
