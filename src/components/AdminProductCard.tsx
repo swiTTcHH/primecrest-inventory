@@ -1,5 +1,6 @@
 import { PRODUCT } from "@/types/types";
 import { formatMoney, useThemeColors } from "@/utils/helpers";
+import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -47,32 +48,57 @@ const AdminProductCard = ({ product }: { product: PRODUCT }) => {
 			]}
 		>
 			<View style={styles.content}>
+				<View style={{flexDirection: "row", justifyContent: "space-between"}}>
+					<Text style={{fontSize: 10, color: theme.textSecondary}}>SKU: {product.sku}</Text>
+					<View
+						style={[
+							styles.statusBadge,
+							{ backgroundColor: stockStatus.bgColor },
+						]}
+					>
+						<Text
+							style={[
+								styles.statusText,
+								{ color: stockStatus.color },
+							]}
+							>
+							{product?.stockQuantity} in stock
+						</Text>
+					</View>
+				</View>
 				<Text style={[styles.name, { color: theme.text }]}>
 					{product?.name}
 				</Text>
-				<Text style={[styles.price, { color: theme.text }]}>
-					{formatMoney(product?.price)}
-				</Text>
-				<Text style={[styles.stock, { color: theme.text }]}>
-					Stock: {product?.stockQuantity}
-				</Text>
+
+				<View style={{flexDirection: "row", justifyContent: "space-between", flexWrap: "wrap"}}>
+					<View>
+						<Text style={[styles.price, { color: theme.text, fontWeight: "400", fontSize: 10 }]}>
+							Cost Price
+						</Text>
+
+						<Text style={[styles.price, { color: theme.text, fontSize: 14 }]}>
+							{formatMoney(product?.costPrice)}
+						</Text>
+					</View>
+
+					<View>
+						<Text style={[styles.price, { color: theme.text, fontWeight: "400", fontSize: 10 }]}>
+							Selling Price
+						</Text>
+
+						<Text style={[styles.price, { color: theme.text }]}>
+							{formatMoney(product?.price)}
+						</Text>
+					</View>
+				</View>
+
+				<View style={{flexDirection: "row", justifyContent: "space-between", backgroundColor: theme.backgroundSelected, borderRadius: 4, marginTop: 10}}>
+					<Text style={{color: theme.text}}>Profit Margin</Text>
+					<Text style={{color: "white", paddingHorizontal: 4, backgroundColor: "green", borderRadius: 4}}><Ionicons name="trending-up-outline" /> {(((product.price - product.costPrice)/product.price)*100).toFixed(2)}%</Text>
+				</View>
 			</View>
 
-			<View
-				style={[
-					styles.statusBadge,
-					{ backgroundColor: stockStatus.bgColor },
-				]}
-			>
-				<Text
-					style={[
-						styles.statusText,
-						{ color: stockStatus.color },
-					]}
-				>
-					{stockStatus.status}
-				</Text>
-			</View>
+
 		</View>
 	);
 };
@@ -115,9 +141,8 @@ const styles = StyleSheet.create({
 	},
 	statusBadge: {
 		paddingHorizontal: 12,
-		paddingVertical: 6,
+		// paddingVertical: 6,
 		borderRadius: 6,
-		marginLeft: 12,
 	},
 	statusText: {
 		fontSize: 12,
