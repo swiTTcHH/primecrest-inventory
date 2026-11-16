@@ -17,7 +17,7 @@ const SingleProductCard = ({product}: {product: PRODUCT}) => {
   const quantityInCart = cartItem?.quantity || 0;
 
   return (
-    <View style={[styles.card, {backgroundColor: theme.backgroundElement}]}>
+    <View style={[styles.card, {backgroundColor: theme.backgroundElement, opacity: quantityInCart >= product?.stockQuantity ? 0.65 : 1}]}>
       <View>
         <Text style={[styles.name, {color: theme.text}]}>{product?.name}</Text>
         <Text style={[styles.price, {color: theme.text}]}>{formatMoney(product?.price)}</Text>
