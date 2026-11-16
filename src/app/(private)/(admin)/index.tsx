@@ -69,7 +69,7 @@ const Index = () => {
 						icon="document-text-outline"
 						subtitle="Business overview"
 						stats={overViewLoading ? [{label: "", value: "-"}, {label: "", value: "-"}, {label: "", value: "-"}, {label: "", value: "-"}] : [
-							{ label: "Total Stock Value", value: formatMoney(productSummary?.metrics?.totalValue) },
+							{ label: "Total Stock Value", value: formatMoney(productSummary?.metrics?.totalValue | 0) },
 							// {label: "Total Revenue", value: formatMoney(salesSummary?.summary?.totalRevenue) },
 							// { label: "Total Products", value: overView?.stats?.totalProducts },
 							// { label: "Total Users", value: overView?.stats?.totalUsers },
