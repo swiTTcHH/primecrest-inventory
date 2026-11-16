@@ -1,10 +1,8 @@
 import api from "@/lib/api";
 import { AddProductResponse } from "@/types/apiTypes";
 import { generateSKU, useThemeColors } from "@/utils/helpers";
-// import { BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   ActivityIndicator,
@@ -31,11 +29,9 @@ type ProductFormData = {
      unit: string;
 };
 
-const AddProduct = ({ onClose }: { onClose: () => void }) => {
+const AddProduct = () => {
      const theme = useThemeColors();
      const styles = createStyles(theme);
-     const [category, setCategory] = useState("");
-
      const queryClient = useQueryClient();
 
      const {
@@ -75,8 +71,8 @@ const AddProduct = ({ onClose }: { onClose: () => void }) => {
           },
           onSuccess: () => {
                (queryClient.invalidateQueries({ queryKey: ["products"] }),
-                    reset());
-               onClose();
+               reset());
+               ToastAndroid.show("Product added successfully", ToastAndroid.LONG);
           },
           onError: (error) => {
                ToastAndroid.show(
@@ -84,7 +80,6 @@ const AddProduct = ({ onClose }: { onClose: () => void }) => {
                     ToastAndroid.LONG,
                );
                reset();
-               onClose();
           },
      });
 
@@ -122,7 +117,7 @@ const AddProduct = ({ onClose }: { onClose: () => void }) => {
      };
 
      return (
-          <ScrollView contentContainerStyle={[styles.container]}>
+          <ScrollView style={{flex: 1, backgroundColor: theme.background}} contentContainerStyle={styles.container}>
                <Stack.Screen options={{ headerTitle: "Add Product" }} />
                <View style={styles.formContainer}>
                     <Controller
@@ -195,10 +190,6 @@ const AddProduct = ({ onClose }: { onClose: () => void }) => {
                               <View>
                                    <CategoryDropdown
                                         category={value}
-                                        // setCategory={(cat) => {
-                                        // 	// setCategory(cat);
-                                        // 	onChange(cat);
-                                        // }}
                                         setCategory={onChange}
                                         label="Product Category"
                                         resultDisabled={true}
